@@ -1,0 +1,45 @@
+import SockJS from 'sockjs-client';
+import  {Stomp} from '@stomp/stompjs';
+
+
+let stompClient = null;
+const handlers = [];
+
+export function connect() {
+    const socket = new SockJS('/gs-guide-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, (frame) => {
+        stompClient.subscribe('/topic/activity', (message) => {
+            handlers.forEach(handler => {
+                handler(JSON.parse(message.body))
+            })
+        });
+    });
+}
+
+export function addHandler(handler) {
+    handlers.push(handler)
+}
+
+export function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+}
+
+export function sendMessageWS(message) {
+    stompClient.send("/app/postMessage",
+        {"Accept" : "application/json", "Content-Type" : "application/json"},
+        JSON.stringify({
+            "text" : message
+        }));
+}
+
+export function deleteMessageWS(messageId) {
+    stompClient.send(
+        "/app/deleteMessage/" + messageId,
+        {"Accept" : "application/json", "Content-Type" : "application/json"},
+        ""
+    )
+}
+

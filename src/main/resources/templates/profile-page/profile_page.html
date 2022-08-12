@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8"/>
+    <title>Hello demo</title>
+    <script th:inline="javascript">
+        let frontendData = [[${frontendData}]]
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- Стили -->
+    <link rel="stylesheet" type="text/css" th:href="${isDevMode} ? 'http://' + ${devServerUrl} + '/main.bundle.css' : 'main.bundle.css'">
+</head>
+<body>
+
+<div id="root"></div>
+
+<script crossorigin th:src="${isDevMode} ? 'http://' + ${devServerUrl} + '/bundle.js' : 'bundle.js'"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+test-react-app
+src/main/resources/upload/*
+src/main/resources/application.properties
+src/main/resources/static/*
+dist
+build
+.idea
+.gradle
+gradle
+node_modules
